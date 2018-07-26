@@ -7,14 +7,14 @@ class Vehicle {
 public:
 	int type;
 	int id;
-	vector<node> route;
+	vector<Node> route;
 	double totalCost;
 	double fixedCost;
 	double chargingCost;
 	double travellingCost;
 	double waitingCost;
 	int distanceTravelled;
-	double currentCapWeigh;
+	double currentCapWeight;
 	double currentCapVol;
 	time_t serviceStartTime;
 	time_t serviceEndTime;
@@ -31,7 +31,7 @@ public:
 
 class Customer {
 	int id;
-	double demandWeigh;
+	double demandWeight;
 	double demandVol;
 	time_t timeWindowStarts;
 	time_t timeWindowEnds;

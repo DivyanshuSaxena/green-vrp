@@ -1,4 +1,5 @@
 #include <iostream>
+#include "Classes.h"
 using namespace std;
 
 int main() {
@@ -15,7 +16,7 @@ while(customerpool.size()!=0){
 
 	Vehicle v;//new object of type:vehicle
 	//intialize the members of object "v" of type Vehicle 
-	vehiclepool.add(v);
+	vehiclepool.push_back(v);
 	// vehiclepool.get(currentvehicle).addNode(depot);
 	while(stoppingcondition!=true){
 		Node mincustomer;
@@ -48,10 +49,10 @@ while(customerpool.size()!=0){
 currentvehicle++;
 
 }
-//ALL customers are served until this line.
+// All customers are served until this line.
 	
 
 	return 0;
 }
 
-//stoppingcondition--will be true if vehicle timing is over w.r.t. customers.//after that we will add new vehicle.
+// stoppingcondition--will be true if vehicle timing is over w.r.t. customers.//after that we will add new vehicle.
