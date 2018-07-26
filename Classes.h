@@ -1,0 +1,39 @@
+#include <iostream>
+#include <vector>
+#include <time.h>
+using namespace std;
+
+class Vehicle {
+public:
+	int type;
+	int id;
+	vector<node> route;
+	double totalCost;
+	double fixedCost;
+	double chargingCost;
+	double travellingCost;
+	double waitingCost;
+	int distanceTravelled;
+	double currentCapWeigh;
+	double currentCapVol;
+	time_t serviceStartTime;
+	time_t serviceEndTime;
+	int currentChargingDistance;    // distance can be covered by current charging level 
+
+//ADD--currentNodeid named int for getting current node's id.
+};
+
+class Node {
+public:
+	int id;
+
+};
+
+class Customer {
+	int id;
+	double demandWeigh;
+	double demandVol;
+	time_t timeWindowStarts;
+	time_t timeWindowEnds;
+
+};
