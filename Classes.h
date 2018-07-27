@@ -21,15 +21,14 @@ public:
 	
 	time_t serviceStartTime;
 	time_t serviceEndTime;
-	int distanceRemaining;    // distance can be covered by current charging level
-	int currentNodeId;
+	int distanceRemaining;    	// distance can be covered by current charging level
+	int currentNodeId;			// This must be updated whenever a change in the route is made
 
 	bool timingCondition(Customer);
 	bool capacityCondition(Customer);
 	bool chargingCondition(Customer);
 	void addCustomer(Customer);
 	bool checkRouteFeasibility();
-	// ADD - currentNodeid named int for getting current node's id.
 };
 
 class Node {
@@ -48,4 +47,14 @@ class Customer {
 };
 
 vector<Customer> customers;
-vector<Node> nodes;
+
+// Numbers
+int numChargingStations;
+int numCustomers;
+int numNodes;
+
+// Starting and End Ids
+int mainDepotId;
+int csStartId, csEndId;
+int custStartId, custEndId;
+vector<vector<double>> travelCosts;
