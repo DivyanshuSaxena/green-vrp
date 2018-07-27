@@ -39,6 +39,7 @@ public:
 };
 
 class Customer {
+public:
 	int id;
 	double demandWeight;
 	double demandVol;
@@ -57,4 +58,11 @@ int numNodes;
 int mainDepotId;
 int csStartId, csEndId;
 int custStartId, custEndId;
+
+// Vehicle Constants
+double capVolType1, capVolType2;
+double capWeightType1, capWeightType2;
+double distanceType1, distanceType2;
+
 vector<vector<double>> travelCosts;
+vector<vector<time_t>> travelTimes;
