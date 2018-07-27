@@ -5,12 +5,12 @@ using namespace std;
 
 class Vehicle {
 public:
+	Vehicle();
 	int type;
 	int id;
 	vector<Node> route;
 	
 	double totalCost;
-	double fixedCost;
 	double chargingCost;
 	double travellingCost;
 	double waitingCost;
@@ -28,11 +28,13 @@ public:
 	bool capacityCondition(Customer);
 	bool chargingCondition(Customer);
 	void addCustomer(Customer);
+	void updateTotalCost();
 	bool checkRouteFeasibility();
 };
 
 class Node {
 public:
+	Node();
 	int id;
 	time_t arrival_time;
 	time_t departure_time;
@@ -63,6 +65,14 @@ int custStartId, custEndId;
 double capVolType1, capVolType2;
 double capWeightType1, capWeightType2;
 double distanceType1, distanceType2;
+double fixedCost1, fixedCost2;
+
+// Miscellaneous
+time_t serviceTime;
+
+// Factors
+int waiting_factor;
+int charging_factor;
 
 vector<vector<double>> travelCosts;
 vector<vector<time_t>> travelTimes;

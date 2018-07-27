@@ -21,3 +21,26 @@ bool Vehicle::chargingCondition(Customer customer) {
     double distance = travelCosts.at(this->currentNodeId).at(customer.id);
     return (this->distanceRemaining > distance);
 }
+
+void Vehicle::updateTotalCost() {
+    double fixedCost = this->type==1 ? fixedCost1 : fixedCost2;
+    this->totalCost = this->travellingCost + this->waitingCost + this->chargingCost + fixedCost;
+}
+
+void Vehicle::addCustomer(Customer customer) {
+    Node node;
+    node.id = customer.id;
+    time_t timeTaken = travelTimes.at(this->currentNodeId).at(customer.id);
+    double travelCost = travelCosts.at(this->currentNodeId).at(customer.id);
+    
+    node.arrival_time = this->route.back().departure_time + timeTaken;
+    node.departure_time = node.arrival_time + serviceTime;
+    this->currentNodeId = customer.id;
+    this->route.push_back(node);
+    
+    // Update costs
+    this->travellingCost += travelCost;
+    double waitCost = (customer.timeWindowStarts > node.arrival_time) ? (customer.timeWindowStarts - node.arrival_time)*waiting_factor : 0; 
+    this->waitingCost += waitCost;
+    updateTotalCost();
+}
