@@ -8,25 +8,35 @@ public:
 	int type;
 	int id;
 	vector<Node> route;
+	
 	double totalCost;
 	double fixedCost;
 	double chargingCost;
 	double travellingCost;
 	double waitingCost;
-	int distanceTravelled;
+	
 	double currentCapWeight;
 	double currentCapVol;
+	int distanceTravelled;
+	
 	time_t serviceStartTime;
 	time_t serviceEndTime;
-	int currentChargingDistance;    // distance can be covered by current charging level 
+	int distanceRemaining;    // distance can be covered by current charging level
+	int currentNodeId;
 
-//ADD--currentNodeid named int for getting current node's id.
+	bool timingCondition(Customer);
+	bool capacityCondition(Customer);
+	bool chargingCondition(Customer);
+	void addCustomer(Customer);
+	bool checkRouteFeasibility();
+	// ADD - currentNodeid named int for getting current node's id.
 };
 
 class Node {
 public:
 	int id;
-
+	time_t arrival_time;
+	time_t departure_time;
 };
 
 class Customer {
@@ -35,5 +45,7 @@ class Customer {
 	double demandVol;
 	time_t timeWindowStarts;
 	time_t timeWindowEnds;
-
 };
+
+vector<Customer> customers;
+vector<Node> nodes;
