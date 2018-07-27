@@ -3,7 +3,7 @@
 using namespace std;
 
 bool Vehicle::timingCondition(Customer customer) {
-    time_t currDeptTime = this->route.at(this->route.size()-1).departure_time;
+    time_type currDeptTime = this->route.at(this->route.size()-1).departure_time;
     return (travelTimes.at(this->currentNodeId).at(customer.id) + currDeptTime) < customer.timeWindowEnds;
 }
 
@@ -30,7 +30,7 @@ void Vehicle::updateTotalCost() {
 void Vehicle::addCustomer(Customer customer) {
     Node node;
     node.id = customer.id;
-    time_t timeTaken = travelTimes.at(this->currentNodeId).at(customer.id);
+    time_type timeTaken = travelTimes.at(this->currentNodeId).at(customer.id);
     double travelCost = travelCosts.at(this->currentNodeId).at(customer.id);
     
     node.arrival_time = this->route.back().departure_time + timeTaken;
