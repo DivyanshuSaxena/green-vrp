@@ -48,6 +48,7 @@ public:
 	int id;
 	double demandWeight;
 	double demandVol;
+	double lng,lat;
 	time_type timeWindowStarts;
 	time_type timeWindowEnds;
 };
@@ -69,6 +70,8 @@ double capVolType1, capVolType2;
 double capWeightType1, capWeightType2;
 double distanceType1, distanceType2;
 double fixedCost1, fixedCost2;
+double unitTransCost1, unitTransCost2;
+double chargeTime1, chargeTime2;
 
 // Miscellaneous
 time_type serviceTime;					// Service time for customers
@@ -77,6 +80,7 @@ time_type serviceTime;					// Service time for customers
 int waiting_factor;
 int charging_factor;
 
-vector<vector<double>> travelCosts;		// To be pre-processed based on the data form input
+// vector<vector<double>> travelCosts;		// To be pre-processed based on the data form input
+vector<vector<double>> travelDistance;		// To be pre-processed based on the data form input
 vector<vector<time_type>> travelTimes;	// To be input from the user
 vector<int> customerPool;				// The vector that will store the indexes of all Customers (in customers vector) that have not been added in any of the vehicles
