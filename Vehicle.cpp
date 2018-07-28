@@ -3,7 +3,7 @@
 using namespace std;
 
 Vehicle::Vehicle() {
-    
+    // Add depot at both ends of the route
 }
 
 bool Vehicle::timingCondition(Customer customer) {
@@ -48,33 +48,30 @@ void Vehicle::addCustomer(Customer customer) {
     updateTotalCost();
     
 }
-bool Vehicle::addChargingStationOrDepot(Customer customer)
+
+bool Vehicle::addChargingStationOrDepot()
 {
-    for(unsigned i=0; i < customerPool.size();i++)
+    double minCost = infinity;
+    int minCustomerIndex = -1;
+    int typeOfInsertion = -1; // 0 for charging station and 1 for depot
+    for(unsigned i=0; i < customerPool.size(); i++)
     {
-        double minCost=-1;
-        int minID=-1;
+        Customer customer  = customers.at(customerPool.at(i));
         if(timingCondition(customer))
         {
             if (capacityCondition(customer))
             {
                 if(!chargingCondition(customer))//if charging condition is not satisfied
                 {
-                    //add charging station
-                    curr_Vehicle.push_back(FindNearestChargingStation(i));
-                    //Find the nearest charging station
-                    //Then Calculate Cost
-                    double currCost=calculateCost(customer);
-                    //update min
-                    if(currCost<minCost)
+                    int chargingStation = customer.findNearestCS();
+                    // Calculate Cost of insertion of customer and charging station
+                    double currCost = costAddCustomerCS(customer, chargingStation);
+                    if (currCost != -1 && currCost < minCost)
                     {
-                        minCost=currCost;
-                        minID=i;
+                        minCost = currCost;
+                        minCustomerIndex = i;
                     }
-                    curr_Vehicle.pop();//remove
-                    curr_Vehicle.pop();//remove                    
-
-                }//this should not happen
+                }
                 else{
                     cout<<"There is some Error";
                     std::exit(0);
@@ -82,33 +79,20 @@ bool Vehicle::addChargingStationOrDepot(Customer customer)
             }
             else
             {
-                //Add depot
-                curr_Vehicle.push_back(mainDepotId);
-                //Calculate Cost
-                CalculateCost(Customerpool[i]));
-                if(currCost<minCost)
+                // Add depot and calculate cost
+                double currCost = costAddCustomerDepot(customer);
+                if (currCost != -1 && currCost < minCost)
                 {                    
-                    minCost=currCost;
-                    minID=i;
+                    minCost = currCost;
+                    minCustomerIndex = i;
                 }
-                curr_Vehicle.pop();//remove
-                // curr_Vehicle.add(Customerpool[i]);
-                
-                //update min
             }
         }
-        if(minCost==-1)
-        {
-            curr_Vehicle.push_back(min_ID);
-            //update solutioncost??
-            return true;
-        }
-        else
-        {
-            curr_Vehicle.push_back(mainDepotId));
-            //update solutioncost??
-            return true;
-            //return false which means depot need to be added and vehicle is retur
-        }
     }
+    if (minCost == -1) {
+        return false;
+    }
+    // Add the suitable customer
+    
+    return true;
 }

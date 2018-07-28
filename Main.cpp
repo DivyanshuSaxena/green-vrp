@@ -59,5 +59,5 @@ int main() {
 void fillGlobalVariables() {
 	// Call certain file from here which will scan .xls(excel) file
 	// and fill customerpool accordingly.
-
+	
 }

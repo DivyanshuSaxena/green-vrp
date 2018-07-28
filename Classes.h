@@ -3,6 +3,7 @@
 #include <time.h>
 using namespace std;
 
+#define infinity 999999999;
 typedef time_t time_type;
 
 class Vehicle {
@@ -34,7 +35,7 @@ public:
 	double costAddCustomerDepot(Customer);	// Returns cost of adding customer at the end of the current route after adding Depot
 	void updateTotalCost();
 	bool checkRouteFeasibility();
-	bool addChargingStationOrDepot(Customer);
+	bool addChargingStationOrDepot();
 };
 
 class Node {
@@ -53,6 +54,19 @@ public:
 	double demandVol;
 	time_type timeWindowStarts;
 	time_type timeWindowEnds;
+
+	int findNearestCS() {
+		double minCost = -1;
+		int nearestCS = -1;
+		for(int id = csStartId; id <= csEndId; id++) {
+			double cost = travelCosts.at(id).at(this->id);
+			if ((minCost > cost) || nearestCS == -1) {
+				nearestCS = id;
+				minCost = cost;
+			} 
+		}
+		return nearestCS;
+	}
 };
 
 vector<Customer> customers;
