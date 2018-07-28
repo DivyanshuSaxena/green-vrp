@@ -32,6 +32,7 @@ public:
 	void addCustomer(Customer);			// Adds Customer at the end of the current route and updates all costs
 	void updateTotalCost();
 	bool checkRouteFeasibility();
+	bool addChargingStationOrDepot(Customer);
 };
 
 class Node {
@@ -70,11 +71,12 @@ double distanceType1, distanceType2;
 double fixedCost1, fixedCost2;
 
 // Miscellaneous
-time_type serviceTime;						// Service time for customers
+time_type serviceTime;					// Service time for customers
 
 // Factors
 int waiting_factor;
 int charging_factor;
 
 vector<vector<double>> travelCosts;		// To be pre-processed based on the data form input
-vector<vector<time_type>> travelTimes;		// To be input from the user
+vector<vector<time_type>> travelTimes;	// To be input from the user
+vector<int> customerPool;				// The vector that will store the indexes of all Customers (in customers vector) that have not been added in any of the vehicles
