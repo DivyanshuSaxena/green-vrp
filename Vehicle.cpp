@@ -48,30 +48,31 @@ void Vehicle::addCustomer(Customer customer) {
     updateTotalCost();
     
 }
-bool functionAddingChargingStationOrDepot(Vehicle curr_Vehicle)
+bool Vehicle::addChargingStationOrDepot(Customer customer)
 {
-    for(unsigned i=0; i<Customerpool.size();i++)
+    for(unsigned i=0; i < customerPool.size();i++)
     {
         double minCost=-1;
-        if(timingCondition(Customerpool[i]))
+        int minID=-1;
+        if(timingCondition(customer))
         {
-            if (capacityCondition(Customerpool[i]))
+            if (capacityCondition(customer))
             {
-                if(!chargingCondition(Customerpool[i]))//if charging condition is not satisfied
+                if(!chargingCondition(customer))//if charging condition is not satisfied
                 {
                     //add charging station
                     curr_Vehicle.push_back(FindNearestChargingStation(i));
                     //Find the nearest charging station
                     //Then Calculate Cost
-                    CalculateCost(curr_Vehicle);
+                    double currCost=calculateCost(customer);
                     //update min
                     if(currCost<minCost)
                     {
                         minCost=currCost;
                         minID=i;
                     }
-                curr_Vehicle.pop();//remove
-                    
+                    curr_Vehicle.pop();//remove
+                    curr_Vehicle.pop();//remove                    
 
                 }//this should not happen
                 else{
