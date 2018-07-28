@@ -3,6 +3,7 @@
 #include <time.h>
 using namespace std;
 
+#define infinity 999999999;
 typedef time_t time_type;
 
 class Vehicle {
@@ -23,16 +24,18 @@ public:
 	
 	time_type serviceStartTime;
 	time_type serviceEndTime;
-	int distanceRemaining;    			// Distance can be covered by current charging level
-	int currentNodeId;					// This must be updated whenever a change in the route is made
+	int distanceRemaining;    				// Distance can be covered by current charging level
+	int currentNodeId;						// This must be updated whenever a change in the route is made
 
-	bool timingCondition(Customer);		// Checks if the timing conditions shall be satisfied if Customer is added at the end of the current route
-	bool capacityCondition(Customer);	// Checks the capacity constraints (Both Volume and Weight)
-	bool chargingCondition(Customer);	// Checks the charging constraints
-	void addCustomer(Customer);			// Adds Customer at the end of the current route and updates all costs
+	bool timingCondition(Customer);			// Checks if the timing conditions shall be satisfied if Customer is added at the end of the current route
+	bool capacityCondition(Customer);		// Checks the capacity constraints (Both Volume and Weight)
+	bool chargingCondition(Customer);		// Checks the charging constraints
+	void addCustomer(Customer);				// Adds Customer at the end of the current route and updates all costs
+	double costAddCustomerCS(Customer,int); // Returns cost of adding customer at the end of the current route after adding Charging Station
+	double costAddCustomerDepot(Customer);	// Returns cost of adding customer at the end of the current route after adding Depot
 	void updateTotalCost();
 	bool checkRouteFeasibility();
-	bool addChargingStationOrDepot(Customer);
+	bool addChargingStationOrDepot();
 };
 
 class Node {
@@ -46,11 +49,25 @@ public:
 class Customer {
 public:
 	int id;
+	double latitude, longitude;
 	double demandWeight;
 	double demandVol;
 	double lng,lat;
 	time_type timeWindowStarts;
 	time_type timeWindowEnds;
+
+	int findNearestCS() {
+		double minCost = -1;
+		int nearestCS = -1;
+		for(int id = csStartId; id <= csEndId; id++) {
+			double cost = travelCosts.at(id).at(this->id);
+			if ((minCost > cost) || nearestCS == -1) {
+				nearestCS = id;
+				minCost = cost;
+			} 
+		}
+		return nearestCS;
+	}
 };
 
 vector<Customer> customers;
@@ -80,7 +97,7 @@ time_type serviceTime;					// Service time for customers
 int waiting_factor;
 int charging_factor;
 
-// vector<vector<double>> travelCosts;		// To be pre-processed based on the data form input
+vector<vector<double>> travelCosts;		// To be pre-processed based on the data form input
 vector<vector<double>> travelDistance;		// To be pre-processed based on the data form input
 vector<vector<time_type>> travelTimes;	// To be input from the user
 vector<int> customerPool;				// The vector that will store the indexes of all Customers (in customers vector) that have not been added in any of the vehicles

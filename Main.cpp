@@ -239,16 +239,17 @@ void fillGlobalVariables() {
 		
 
 
-    vector<char*> values;
-    const int MAXSIZE = 4;
-    char thisVal[MAXSIZE];
-    while(in.getline(thisVal,MAXSIZE,',')) {
-        values.resize(values.size() + 1);
-        values.back() = new char[MAXSIZE];
-        strcpy(values.back(), thisVal);
-    }
-    in.close();
-    for (char* cp: values) cout<<*cp<<endl;
+    // vector<char*> values;
+    // const int MAXSIZE = 4;
+    // char thisVal[MAXSIZE];
+    // while(in.getline(thisVal,MAXSIZE,',')) {
+    //     values.resize(values.size() + 1);
+    //     values.back() = new char[MAXSIZE];
+    //     strcpy(values.back(), thisVal);
+    // }
+    // in.close();
+    // for (char* cp: values) cout<<*cp<<endl;
 
 
+	
 }
