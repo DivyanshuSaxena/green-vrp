@@ -3,14 +3,16 @@
 #include <time.h>
 using namespace std;
 
+typedef time_t time_type;
+
 class Vehicle {
 public:
+	Vehicle();
 	int type;
 	int id;
 	vector<Node> route;
 	
 	double totalCost;
-	double fixedCost;
 	double chargingCost;
 	double travellingCost;
 	double waitingCost;
@@ -19,31 +21,34 @@ public:
 	double currentCapVol;
 	int distanceTravelled;
 	
-	time_t serviceStartTime;
-	time_t serviceEndTime;
-	int distanceRemaining;    	// distance can be covered by current charging level
-	int currentNodeId;			// This must be updated whenever a change in the route is made
+	time_type serviceStartTime;
+	time_type serviceEndTime;
+	int distanceRemaining;    			// Distance can be covered by current charging level
+	int currentNodeId;					// This must be updated whenever a change in the route is made
 
-	bool timingCondition(Customer);
-	bool capacityCondition(Customer);
-	bool chargingCondition(Customer);
-	void addCustomer(Customer);
+	bool timingCondition(Customer);		// Checks if the timing conditions shall be satisfied if Customer is added at the end of the current route
+	bool capacityCondition(Customer);	// Checks the capacity constraints (Both Volume and Weight)
+	bool chargingCondition(Customer);	// Checks the charging constraints
+	void addCustomer(Customer);			// Adds Customer at the end of the current route and updates all costs
+	void updateTotalCost();
 	bool checkRouteFeasibility();
 };
 
 class Node {
 public:
+	Node();
 	int id;
-	time_t arrival_time;
-	time_t departure_time;
+	time_type arrival_time;
+	time_type departure_time;
 };
 
 class Customer {
+public:
 	int id;
 	double demandWeight;
 	double demandVol;
-	time_t timeWindowStarts;
-	time_t timeWindowEnds;
+	time_type timeWindowStarts;
+	time_type timeWindowEnds;
 };
 
 vector<Customer> customers;
@@ -55,6 +60,21 @@ int numNodes;
 
 // Starting and End Ids
 int mainDepotId;
-int csStartId, csEndId;
-int custStartId, custEndId;
-vector<vector<double>> travelCosts;
+int csStartId, csEndId;					// Charging Station Start and End Id
+int custStartId, custEndId;				// Customers Start and End Id
+
+// Vehicle Constants
+double capVolType1, capVolType2;
+double capWeightType1, capWeightType2;
+double distanceType1, distanceType2;
+double fixedCost1, fixedCost2;
+
+// Miscellaneous
+time_type serviceTime;						// Service time for customers
+
+// Factors
+int waiting_factor;
+int charging_factor;
+
+vector<vector<double>> travelCosts;		// To be pre-processed based on the data form input
+vector<vector<time_type>> travelTimes;		// To be input from the user
