@@ -2,6 +2,10 @@
 #include <iostream>
 using namespace std;
 
+Vehicle::Vehicle() {
+    
+}
+
 bool Vehicle::timingCondition(Customer customer) {
     time_type currDeptTime = this->route.at(this->route.size()-1).departure_time;
     return (travelTimes.at(this->currentNodeId).at(customer.id) + currDeptTime) < customer.timeWindowEnds;
@@ -106,5 +110,4 @@ bool functionAddingChargingStationOrDepot(Vehicle curr_Vehicle)
             //return false which means depot need to be added and vehicle is retur
         }
     }
-
 }
