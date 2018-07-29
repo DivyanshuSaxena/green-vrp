@@ -13,8 +13,6 @@ void fillGlobalVariables();
 double checknewCustomerCost(int id1,int id2);
 
 int main() {
-
-
 	fillGlobalVariables();
 
 	while(customerPool.size()!=0){

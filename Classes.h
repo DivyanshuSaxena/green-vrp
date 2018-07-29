@@ -1,3 +1,6 @@
+#ifndef CLASSES_H_
+#define CLASSES_H_
+
 #include <iostream>
 #include <vector>
 #include <time.h>
@@ -114,3 +117,5 @@ int waiting_factor;
 int charging_factor;
 double chargingCostStation;
 double waitingCostDepot;
+
+#endif
