@@ -67,6 +67,10 @@ int main() {
 
 	}
 	// All customers are served until this line.
+
+//output in
+
+
 	return 0;
 }
 
@@ -97,7 +101,7 @@ void fillGlobalVariables() {
 		distanceType1=stod(temp);
 		
 	    getline(infile,temp,',');//charging time--sae for both
-		chargeTime1=stod(temp);
+		chargeTime1=stod(temp)*60;
 		
 	    getline(infile,temp,',');//unit cost--per distance
 		unitTransCost1=stod(temp);
@@ -119,7 +123,7 @@ void fillGlobalVariables() {
 		distanceType2=stod(temp);
 		
 	    getline(infile,temp,',');
-		chargeTime2=stod(temp);
+		chargeTime2=stod(temp)*60;
 		
 	    getline(infile,temp,',');
 		unitTransCost2=stod(temp);
@@ -175,10 +179,12 @@ void fillGlobalVariables() {
 		// depot.lat=stod(s_temp);
 		getline(infile,s_temp,',');
 		getline(infile,s_temp,',');
-		getline(infile,s_temp,',');//start time
-/*debug it*/		depot.timeWindowStarts=stoi(s_temp);
+		getline(infile,s_temp,':');//start time:hour
+			double depothour=stod(s_temp)*60;
+		getline(infile,s_temp,',');//start time:minute
+			depot.timeWindowStarts=stod(s_temp)+depothour;
 		getline(infile,s_temp,'\n');//end time
-/*debug it*/		depot.timeWindowEnds=stoi(s_temp);
+			depot.timeWindowEnds=1440;
 		
 		customers.push_back(depot);
 		
@@ -204,10 +210,14 @@ void fillGlobalVariables() {
 			tempNode.demandWeight=stod(s_temp);
 			getline(infile,s_temp,',');//volume
 			tempNode.demandVol=stod(s_temp);			
-			getline(infile,s_temp,',');//start time
-	/*debug it*/		tempNode.timeWindowStarts=stoi(s_temp);
+			getline(infile,s_temp,':');//start time:hour
+					double customerstarthour=stod(s_temp)*60;
+			getline(infile,s_temp,',');//start time:minute		
+					tempNode.timeWindowStarts=customerstarthour + stod(s_temp);
+			getline(infile,s_temp,':');//end time:hour
+					double customerendhour=stod(s_temp)*60;
 			getline(infile,s_temp,'\n');//end time
-	/*debug it*/		tempNode.timeWindowEnds=stoi(s_temp);
+					tempNode.timeWindowEnds=customerendhour +stod(s_temp);
 			
 			customers.push_back(tempNode);
 		}
