@@ -99,7 +99,6 @@ void fillGlobalVariables() {
 	//reading vehicle type below
 	ifstream infile;
 	infile.open("input_vehicle_type.csv");
-	
 
 		string temp;
 		getline(infile,temp,'\n');
@@ -150,10 +149,10 @@ void fillGlobalVariables() {
 		//input of distance_time begins
 
 		std::string file_path= "input_distance-time.txt";
-	//   std::cout<<"hi"<<std::endl;
+		// std::cout<<"hi"<<std::endl;
 		std::ifstream fin(file_path.c_str());
 		// std::cout<<"hi"<<std::endl;
-		std::string temp;
+		
 		getline(fin, temp);//ignoring the first line with heading
 		for(long i=0;i<=1211099;i++)
 		{
@@ -179,7 +178,6 @@ void fillGlobalVariables() {
 		}//1-1000
 
 		numNodes=1101;
-		ifstream infile;
 		infile.open("input_vehicle_type.csv");
 		string s_temp;
 		getline(infile,s_temp,'\n');//enter heading lines

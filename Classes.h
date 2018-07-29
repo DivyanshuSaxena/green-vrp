@@ -6,6 +6,55 @@ using namespace std;
 #define infinity 999999999;
 typedef double time_type;
 
+// Numbers
+int numChargingStations;
+int numCustomers;
+int numNodes;
+
+// Starting and End Ids
+int mainDepotId;
+int csStartId, csEndId;					// Charging Station Start and End Id
+int custStartId, custEndId;				// Customers Start and End Id
+
+// Global vectors
+vector<vector<double>> travelCosts;			// To be pre-processed based on the data form input
+vector<vector<double>> travelDistance;		// To be pre-processed based on the data form input
+vector<vector<time_type>> travelTimes;		// To be input from the user
+vector<int> customerPool;					// The vector that will store the indexes of all Customers (in customers vector) that have not been added in any of the vehicles
+
+class Node {
+public:
+	Node();
+	int id;
+	time_type arrival_time;
+	time_type departure_time;
+};
+
+class Customer {
+public:
+	int id;
+	// double latitude, longitude;
+	double demandWeight;
+	double demandVol;
+	double lng,lat;
+	time_type timeWindowStarts;
+	time_type timeWindowEnds;
+
+	int findNearestCS() {
+		double minCost = -1;
+		int nearestCS = -1;
+		for(int id = csStartId; id <= csEndId; id++) {
+			double cost = travelCosts.at(id).at(this->id);
+			if ((minCost > cost) || nearestCS == -1) {
+				nearestCS = id;
+				minCost = cost;
+			} 
+		}
+		return nearestCS;
+	}
+};
+
+
 class Vehicle {
 public:
 	Vehicle();
@@ -44,50 +93,8 @@ public:
 	bool addChargingStationOrDepot();
 };
 
-class Node {
-public:
-	Node();
-	int id;
-	time_type arrival_time;
-	time_type departure_time;
-};
-
-class Customer {
-public:
-	int id;
-	// double latitude, longitude;
-	double demandWeight;
-	double demandVol;
-	double lng,lat;
-	time_type timeWindowStarts;
-	time_type timeWindowEnds;
-
-	int findNearestCS() {
-		double minCost = -1;
-		int nearestCS = -1;
-		for(int id = csStartId; id <= csEndId; id++) {
-			double cost = travelCosts.at(id).at(this->id);
-			if ((minCost > cost) || nearestCS == -1) {
-				nearestCS = id;
-				minCost = cost;
-			} 
-		}
-		return nearestCS;
-	}
-};
-
 vector<Customer> customers;
 vector<Vehicle> vehicles;
-
-// Numbers
-int numChargingStations;
-int numCustomers;
-int numNodes;
-
-// Starting and End Ids
-int mainDepotId;
-int csStartId, csEndId;					// Charging Station Start and End Id
-int custStartId, custEndId;				// Customers Start and End Id
 
 // Vehicle Constants
 double capVolType1, capVolType2;
@@ -107,8 +114,3 @@ int waiting_factor;
 int charging_factor;
 double chargingCostStation;
 double waitingCostDepot;
-
-vector<vector<double>> travelCosts;		// To be pre-processed based on the data form input
-vector<vector<double>> travelDistance;		// To be pre-processed based on the data form input
-vector<vector<time_type>> travelTimes;	// To be input from the user
-vector<int> customerPool;				// The vector that will store the indexes of all Customers (in customers vector) that have not been added in any of the vehicles

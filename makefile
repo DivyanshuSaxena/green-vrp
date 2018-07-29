@@ -9,12 +9,11 @@ BDIR =./build
 _DEPS = Classes.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ = Point.o Object3D.o Projection2D.o OrthoProjection.o PlaneProjection.o Wireframe.o
+_OBJ = Vehicle.o Main.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 _BUILDS = main
 BUILDS = $(patsubst %,$(BDIR)/%,$(_BUILDS))
-TESTS = $(patsubst %,$(TDIR)/%,$(_BUILDS))
 
 MKDIR = mkdir -p
 
