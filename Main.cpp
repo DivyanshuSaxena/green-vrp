@@ -28,7 +28,7 @@ int main() {
 		vehiclepool.push_back(v);
 		// vehiclepool.get(currentvehicle).addNode(depot);
 		while(stoppingcondition!=true){
-			Node mincustomer;
+			int mincustomer;
 			double minCost=-1;
 			double checkcost;
 
@@ -45,7 +45,7 @@ int main() {
 			}
 
 		if(minCost!=-1){
-			vehiclepool.at(currentvehicle).addNode(mincustomer);
+			vehiclepool.at(currentvehicle).addCustomer(mincustomer);
 			customerpool.remove(mincustomer);
 		}
 		else{//NO customer is feasible for adding
