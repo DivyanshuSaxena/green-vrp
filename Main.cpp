@@ -24,7 +24,8 @@ int main() {
 		bool stoppingcondition=false;
 
 		Vehicle v;//new object of type:vehicle
-		//intialize the members of object "v" of type Vehicle 
+		//intialize the members of object "v" of type Vehicle
+
 		vehiclepool.push_back(v);
 		// vehiclepool.get(currentvehicle).addNode(depot);
 		while(stoppingcondition!=true){
@@ -46,7 +47,14 @@ int main() {
 
 		if(minCost!=-1){
 			vehiclepool.at(currentvehicle).addCustomer(mincustomer);
-			customerpool.remove(mincustomer);
+
+			for(int p=0;p<customerpool.size().p++){
+				if(customerpool.at(p)==mincustomer){
+					customerpool.erase(customerpool.begin()+p);
+					break;
+					}
+			}
+
 		}
 		else{//NO customer is feasible for adding
 			stoppingcondition= functionAddingChargingStationOrDepot(vehiclepool.at(currentvehicle));
