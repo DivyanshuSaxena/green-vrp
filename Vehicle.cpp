@@ -52,7 +52,7 @@ void Vehicle::addCustomer(Customer customer) {
 bool Vehicle::addChargingStationOrDepot()
 {
     double minCost = infinity;
-    int minCustomerIndex = -1;
+    int minCustomerIndex = -1, minChargingStation = -1;
     int typeOfInsertion = -1; // 0 for charging station and 1 for depot
     for(unsigned i=0; i < customerPool.size(); i++)
     {
@@ -70,6 +70,8 @@ bool Vehicle::addChargingStationOrDepot()
                     {
                         minCost = currCost;
                         minCustomerIndex = i;
+                        minChargingStation = chargingStation;
+                        typeOfInsertion = 0;
                     }
                 }
                 else{
@@ -85,6 +87,7 @@ bool Vehicle::addChargingStationOrDepot()
                 {                    
                     minCost = currCost;
                     minCustomerIndex = i;
+                    typeOfInsertion = 1;
                 }
             }
         }
@@ -93,6 +96,10 @@ bool Vehicle::addChargingStationOrDepot()
         return false;
     }
     // Add the suitable customer
-    
+    if (typeOfInsertion == 0) {
+        addCustomerCS(minCustomerIndex, minChargingStation);
+    } else {
+        addCustomerDepot(minCustomerIndex);
+    }
     return true;
 }

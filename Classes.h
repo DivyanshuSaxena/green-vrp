@@ -30,10 +30,14 @@ public:
 	bool timingCondition(Customer);			// Checks if the timing conditions shall be satisfied if Customer is added at the end of the current route
 	bool capacityCondition(Customer);		// Checks the capacity constraints (Both Volume and Weight)
 	bool chargingCondition(Customer);		// Checks the charging constraints
+	
 	void addCustomer(Customer);				// Adds Customer at the end of the current route and updates all costs
+	
+	
 	double costAddCustomerCS(Customer,int); // Returns cost of adding customer at the end of the current route after adding Charging Station
 	double costAddCustomerDepot(Customer);	// Returns cost of adding customer at the end of the current route after adding Depot
 	void updateTotalCost();
+	
 	bool checkRouteFeasibility();
 	bool addChargingStationOrDepot();
 };
