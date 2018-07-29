@@ -49,7 +49,7 @@ public:
 class Customer {
 public:
 	int id;
-	double latitude, longitude;
+	// double latitude, longitude;
 	double demandWeight;
 	double demandVol;
 	double lng,lat;
@@ -100,4 +100,4 @@ int charging_factor;
 vector<vector<double>> travelCosts;		// To be pre-processed based on the data form input
 vector<vector<double>> travelDistance;		// To be pre-processed based on the data form input
 vector<vector<time_type>> travelTimes;	// To be input from the user
-vector<int> customerPool;				// The vector that will store the indexes of all Customers (in customers vector) that have not been added in any of the vehicles
+vector<int> customerpool;				// The vector that will store the indexes of all Customers (in customers vector) that have not been added in any of the vehicles
