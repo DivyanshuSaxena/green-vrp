@@ -45,7 +45,7 @@ bool Vehicle::capacityCondition(Customer customer) {
 bool Vehicle::chargingCondition(Customer customer) {
     // Distance till Depot check must be thought of
     // Find the nearest charging station to the customer
-    double distance = travelCosts.at(this->currentNodeId).at(customer.id);
+    double distance = travelCosts.at(this->currentNodeId).at(customer.id) + travelCosts.at(0).at(customer.id) - travelCosts.at(this->currentNodeId).at(0);
     return (this->distanceRemaining > distance);
 }
 
