@@ -4,8 +4,8 @@ using namespace std;
 
 Vehicle::Vehicle() {
     // Add depot at both ends of the route
+    
 }
-
 
 bool Vehicle::feasible(int customerid) {
 	bool timingbool=timingCondition(customers.at(customerid));
@@ -15,9 +15,8 @@ bool Vehicle::feasible(int customerid) {
 	return feasiblebool;
 }
 
-
 bool Vehicle::timingCondition(Customer customer) {
-    time_type currDeptTime = this->route.at(this->route.size()-1).departure_time;
+    time_type currDeptTime = this->route.at(this->route.size()-2).departure_time;
     return (travelTimes.at(this->currentNodeId).at(customer.id) + currDeptTime) < customer.timeWindowEnds;
 }
 

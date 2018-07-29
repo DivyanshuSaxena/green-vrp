@@ -77,6 +77,7 @@ public:
 };
 
 vector<Customer> customers;
+vector<Vehicle> vehicles;
 
 // Numbers
 int numChargingStations;
