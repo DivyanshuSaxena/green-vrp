@@ -4,7 +4,18 @@ using namespace std;
 
 Vehicle::Vehicle() {
     // Add depot at both ends of the route
-    
+    type = 1;
+    currentNodeId = 0;
+    Node start;
+    start.id = 0;
+    start.arrival_time = -1;
+    start.departure_time = startTime;
+    Node end;
+    end.id = 0;
+    end.arrival_time = 0;
+    end.departure_time = -1;
+    this->route.push_back(start);
+    this->route.push_back(end);
 }
 
 bool Vehicle::feasible(int customerid) {
@@ -17,7 +28,10 @@ bool Vehicle::feasible(int customerid) {
 
 bool Vehicle::timingCondition(Customer customer) {
     time_type currDeptTime = this->route.at(this->route.size()-2).departure_time;
-    return (travelTimes.at(this->currentNodeId).at(customer.id) + currDeptTime) < customer.timeWindowEnds;
+    time_type expectedTime = travelTimes.at(this->currentNodeId).at(customer.id) + currDeptTime;
+    time_type timeToEnd = travelTimes.at(0).at(customer.id);
+    this->route.back().arrival_time = expectedTime + serviceTime + timeToEnd;
+    return (expectedTime < customer.timeWindowEnds && this->route.back().arrival_time < endTime);
 }
 
 bool Vehicle::capacityCondition(Customer customer) {

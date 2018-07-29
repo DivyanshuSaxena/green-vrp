@@ -99,6 +99,7 @@ double chargeTime1, chargeTime2;
 
 // Miscellaneous
 time_type serviceTime=30;					// Service time for customers
+time_type startTime, endTime;
 time_type chargingTimeCS, chargingTimeDepot;
 
 // Factors
