@@ -30,10 +30,12 @@ public:
 	bool timingCondition(Customer);			// Checks if the timing conditions shall be satisfied if Customer is added at the end of the current route
 	bool capacityCondition(Customer);		// Checks the capacity constraints (Both Volume and Weight)
 	bool chargingCondition(Customer);		// Checks the charging constraints
-	
-	void addCustomer(Customer);				// Adds Customer at the end of the current route and updates all costs
-	
-	
+	bool feasible(int);						// Checks all the conditions together
+
+	void addCustomer(int);				// Adds Customer at the end of the current route and updates all costs
+	void addCustomerCS(int, int);
+	void addCustomerDepot(int);
+
 	double costAddCustomerCS(Customer,int); // Returns cost of adding customer at the end of the current route after adding Charging Station
 	double costAddCustomerDepot(Customer);	// Returns cost of adding customer at the end of the current route after adding Depot
 	void updateTotalCost();
@@ -96,12 +98,15 @@ double chargeTime1, chargeTime2;
 
 // Miscellaneous
 time_type serviceTime;					// Service time for customers
+time_type chargingTimeCS, chargingTimeDepot;
 
 // Factors
 int waiting_factor;
 int charging_factor;
+double chargingCostStation;
+double waitingCostDepot;
 
 vector<vector<double>> travelCosts;		// To be pre-processed based on the data form input
 vector<vector<double>> travelDistance;		// To be pre-processed based on the data form input
 vector<vector<time_type>> travelTimes;	// To be input from the user
-vector<int> customerpool;				// The vector that will store the indexes of all Customers (in customers vector) that have not been added in any of the vehicles
+vector<int> customerPool;				// The vector that will store the indexes of all Customers (in customers vector) that have not been added in any of the vehicles

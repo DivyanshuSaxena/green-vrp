@@ -14,13 +14,12 @@ double checknewCustomerCost(int id1,int id2);
 int main() {
 
 	vector<Vehicle> vehiclepool;
-	vector<int> customerpool;//consisting only of customers. NOT"charging station" NOT"depot"
 	int currentvehicle=0;
 
 
 	fillGlobalVariables();
 
-	while(customerpool.size()!=0){
+	while(customerPool.size()!=0){
 		bool stoppingcondition=false;
 
 		Vehicle v;//new object of type:vehicle
@@ -32,12 +31,12 @@ int main() {
 			double minCost=-1;
 			double checkcost;
 
-			for(int counter=0;counter<customerpool.size();counter++){
-				if(vehiclepool.at(currentvehicle).feasible(customerpool.at(counter) )==true){
-					checkcost=vehiclepool.at(currentvehicle).totalcost + checknewCustomerCost(customerpool.at(counter) , vehiclepool.at(currentvehicle).currentNodeid) ;
+			for(int counter=0;counter<customerPool.size();counter++){
+				if(vehiclepool.at(currentvehicle).feasible(customerPool.at(counter) )==true){
+					checkcost=vehiclepool.at(currentvehicle).totalCost + checknewCustomerCost(customerPool.at(counter) , vehiclepool.at(currentvehicle).currentNodeId) ;
 					//checknewCustomerCost should give travellingCost+waitingCost here.
 					if(minCost>checkcost || minCost==-1){
-						mincustomer= customerpool.at(counter);
+						mincustomer= customerPool.at(counter);
 						minCost=checkcost;
 					}
 				
@@ -46,7 +45,7 @@ int main() {
 
 		if(minCost!=-1){
 			vehiclepool.at(currentvehicle).addNode(mincustomer);
-			customerpool.remove(mincustomer);
+			customerPool.remove(mincustomer);
 		}
 		else{//NO customer is feasible for adding
 			stoppingcondition= functionAddingChargingStationOrDepot(vehiclepool.at(currentvehicle));
