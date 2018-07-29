@@ -58,7 +58,21 @@ int main() {
 	currentvehicle++;
 	}
 	// All customers are served until this line.
-	// Output in
+
+//output in csv file
+	ofstream outFile;
+	outfile.open("solution.csv");
+	outFile<<"trans_code,vehicle_type,dist_seq,distribute_lea_tm,distribute_arr_tm,distance,trans_cost,charge_cost,weight_cost,fixed_use_cost,total_cost,charge_cnt,\n";
+	for ( int i=0;i<vehiclepool.size();i++)
+	{
+		outFile<<"DP"<<i+1<<",";
+		outfile<<vehiclepool.vehicle_type<<",";
+
+
+	}
+
+
+
 	return 0;
 }
 
