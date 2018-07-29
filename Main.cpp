@@ -67,11 +67,24 @@ int main() {
 	{
 		outFile<<"DP"<<i+1<<",";
 		outfile<<vehiclepool.vehicle_type<<",";
-
-
+		for(auto j = 0; j < vehiclepool.at(i).route.size();j++ )
+		{
+			outFile<<vehiclepool.at(i).route.at(j).id;
+			if(j!=vehiclepool.at(i).route.size()-1)
+				myfile<<";";
+		}
+		myfile<<",";
+		outFile<<vehiclepool.at(i).route.at(0).arrival_time<<",";
+		outFile<<vehiclepool.at(i).route.at(vehiclepool.at(i).route.size()-1).arrival+time<<",";
+		outFile<<vehiclepool.at(i).distanceTravelled<<",";
+		outFile<<vehiclepool.at(i).travellingCost<<",";
+		outFile<<vehiclepool.at(i).chargingCost<<",";
+		outFile<<vehiclepool.at(i).waitingCost<<",";
+		outFile<<"200,";
+		outFile<<vehiclepool.at(i).totalCost<<",";
+		double countCharging=chargingCost/chargingCostStation;
+		outFile<<countCharging<<"\n";
 	}
-
-
 
 	return 0;
 }

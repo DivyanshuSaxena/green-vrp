@@ -20,11 +20,11 @@ public:
 	
 	double currentCapWeight;
 	double currentCapVol;
-	int distanceTravelled;
+	double distanceTravelled;
 	
 	time_type serviceStartTime;
 	time_type serviceEndTime;
-	int distanceRemaining;    				// Distance can be covered by current charging level
+	double distanceRemaining;    				// Distance can be covered by current charging level
 	int currentNodeId;						// This must be updated whenever a change in the route is made
 
 	bool timingCondition(Customer);			// Checks if the timing conditions shall be satisfied if Customer is added at the end of the current route
