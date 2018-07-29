@@ -4,17 +4,45 @@
 #include "Classes.h"
 using namespace std;
 
+// Global Definitions
+int numChargingStations;
+int numCustomers;
+int numNodes;
+int mainDepotId;
+int csStartId, csEndId;					
+int custStartId, custEndId;				
+vector<vector<double> > travelCosts;
+vector<vector<double> > travelDistance;
+vector<vector<time_type> > travelTimes;
+vector<int> customerPool;					
+vector<Customer> customers;
+vector<Vehicle> vehicles;
+double capVolType1, capVolType2;
+double capWeightType1, capWeightType2;
+double distanceType1, distanceType2;
+double fixedCost1, fixedCost2;
+double unitTransCost1, unitTransCost2;
+double chargeTime1, chargeTime2;
+time_type serviceTime = 30;
+time_type startTime, endTime;
+time_type chargingTimeCS, chargingTimeDepot;
+int waiting_factor;
+int charging_factor;
+double chargingCostStation;
+double waitingCostDepot;
+
+// File Declarations
 const int depot=0;
-const int startCustomer=1,endCustomer=1000;
-const int startCharging=1001,endCharging=1100;
+const int startCustomer=1, endCustomer=1000;
+const int startCharging=1001, endCharging=1100;
 int currentvehicle=0;
 
 void fillGlobalVariables();
 double checknewCustomerCost(int id1,int id2);
 
 int main() {
+	cout << "Starting execution";
 	fillGlobalVariables();
-
 	while(customerPool.size()!=0){
 		bool stoppingcondition=false;
 
@@ -199,11 +227,6 @@ void fillGlobalVariables() {
 			depot.timeWindowEnds=1440;
 		
 		customers.push_back(depot);
-		
-		
-		
-		
-		
 		
 		getline(infile,s_temp,',');
 		

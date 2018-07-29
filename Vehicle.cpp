@@ -54,6 +54,19 @@ void Vehicle::updateTotalCost() {
     this->totalCost = this->travellingCost + this->waitingCost + this->chargingCost + fixedCost;
 }
 
+double Vehicle::costAddCustomerCS(Customer customer, int chargingStation) {
+    double costNodeCS = travelCosts.at(this->currentNodeId).at(chargingStation);
+    double costCustomerCS = travelCosts.at(customer.id).at(chargingStation);
+    double endCost = travelCosts.at(customer.id).at(0);
+    double additionCost = costNodeCS + costCustomerCS + endCost - travelCosts.at(this->currentNodeId).at(0);
+    return additionCost;
+}
+
+double Vehicle::costAddCustomerDepot(Customer customer) {
+    double costCustDepot = travelCosts.at(customer.id).at(0);
+    return 2*costCustDepot;
+}
+
 void Vehicle::addCustomer(int customerId) {
     Customer customer = customers.at(customerId);
     Node node;

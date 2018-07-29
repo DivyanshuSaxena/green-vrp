@@ -10,27 +10,32 @@ using namespace std;
 typedef double time_type;
 
 // Numbers
-int numChargingStations;
-int numCustomers;
-int numNodes;
+extern int numChargingStations;
+extern int numCustomers;
+extern int numNodes;
 
 // Starting and End Ids
-int mainDepotId;
-int csStartId, csEndId;					// Charging Station Start and End Id
-int custStartId, custEndId;				// Customers Start and End Id
+extern int mainDepotId;
+extern int csStartId, csEndId;					// Charging Station Start and End Id
+extern int custStartId, custEndId;				// Customers Start and End Id
 
 // Global vectors
-vector<vector<double>> travelCosts;			// To be pre-processed based on the data form input
-vector<vector<double>> travelDistance;		// To be pre-processed based on the data form input
-vector<vector<time_type>> travelTimes;		// To be input from the user
-vector<int> customerPool;					// The vector that will store the indexes of all Customers (in customers vector) that have not been added in any of the vehicles
+extern vector<vector<double> > travelCosts;			// To be pre-processed based on the data form input
+extern vector<vector<double> > travelDistance;		// To be pre-processed based on the data form input
+extern vector<vector<time_type> > travelTimes;		// To be input from the user
+extern vector<int> customerPool;					// The vector that will store the indexes of all Customers (in customers vector) that have not been added in any of the vehicles
 
 class Node {
 public:
-	Node();
 	int id;
 	time_type arrival_time;
 	time_type departure_time;
+
+	Node() {
+		id = 0;
+		arrival_time = 0;
+		departure_time = 0;
+	}
 };
 
 class Customer {
@@ -42,6 +47,12 @@ public:
 	double lng,lat;
 	time_type timeWindowStarts;
 	time_type timeWindowEnds;
+
+	Customer() {
+		id = 0;
+		demandVol = 0;
+		demandWeight = 0;
+	}
 
 	int findNearestCS() {
 		double minCost = -1;
@@ -96,26 +107,26 @@ public:
 	bool addChargingStationOrDepot();
 };
 
-vector<Customer> customers;
-vector<Vehicle> vehicles;
+extern vector<Customer> customers;
+extern vector<Vehicle> vehicles;
 
 // Vehicle Constants
-double capVolType1, capVolType2;
-double capWeightType1, capWeightType2;
-double distanceType1, distanceType2;
-double fixedCost1, fixedCost2;
-double unitTransCost1, unitTransCost2;
-double chargeTime1, chargeTime2;
+extern double capVolType1, capVolType2;
+extern double capWeightType1, capWeightType2;
+extern double distanceType1, distanceType2;
+extern double fixedCost1, fixedCost2;
+extern double unitTransCost1, unitTransCost2;
+extern double chargeTime1, chargeTime2;
 
 // Miscellaneous
-time_type serviceTime=30;					// Service time for customers
-time_type startTime, endTime;
-time_type chargingTimeCS, chargingTimeDepot;
+extern time_type serviceTime;					// Service time for customers
+extern time_type startTime, endTime;
+extern time_type chargingTimeCS, chargingTimeDepot;
 
 // Factors
-int waiting_factor;
-int charging_factor;
-double chargingCostStation;
-double waitingCostDepot;
+extern int waiting_factor;
+extern int charging_factor;
+extern double chargingCostStation;
+extern double waitingCostDepot;
 
 #endif

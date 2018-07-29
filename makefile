@@ -1,33 +1,36 @@
-all:
-	g++ -o main Main.cpp Vehicle.cpp -I.
+# all:
+# 	g++ -o main Main.cpp Vehicle.cpp -I.
 
-# CC=g++
-# CFLAGS = -I.
+CC=g++
+CFLAGS = -I.
 
-# ODIR =./bin
-# SDIR =./
-# BDIR =./build
+ODIR =./bin
+SDIR =./
+BDIR =./build
 
-# _DEPS = Classes.h
-# DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
+_DEPS = Classes.h
+DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-# _OBJ = Vehicle.o Main.o
-# OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
+_OBJ = Vehicle.o Main.o
+OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
-# _BUILDS = main
-# BUILDS = $(patsubst %,$(BDIR)/%,$(_BUILDS))
+_BUILDS = main
+BUILDS = $(patsubst %,$(BDIR)/%,$(_BUILDS))
 
-# MKDIR = mkdir -p
+MKDIR = mkdir -p
 
-# OUT_DIR = bin build
+OUT_DIR = bin build
 
-# $(ODIR)/%.o: $(SDIR)/%.cpp $(DEPS)
-# 	$(CC) -c -o $@ $< $(CFLAGS)
+all: directories $(BUILDS)
 
-# all: directories $(BUILDS)
+directories: 
+	$(MKDIR) $(OUT_DIR)
 
-# directories: 
-# 	$(MKDIR) $(OUT_DIR)
+$(BDIR)/main: $(OBJ)
+		$(CC) -o $@ $^ $(CFLAGS) 
 
-# $(BDIR)/main: $(OBJ)
-# 		$(CC) -o $@ $^ $(CFLAGS) 
+bin/Vehicle.o: Vehicle.cpp $(_DEPS)
+	$(CC) -c -o $@ $< $(CFLAGS)
+
+bin/Main.o: Main.cpp $(_DEPS)
+	$(CC) -c -o $@ $< $(CFLAGS)
