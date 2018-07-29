@@ -4,7 +4,7 @@
 using namespace std;
 
 #define infinity 999999999;
-typedef time_t time_type;
+typedef double time_type;
 
 class Vehicle {
 public:
@@ -97,7 +97,7 @@ double unitTransCost1, unitTransCost2;
 double chargeTime1, chargeTime2;
 
 // Miscellaneous
-time_type serviceTime;					// Service time for customers
+time_type serviceTime=30;					// Service time for customers
 time_type chargingTimeCS, chargingTimeDepot;
 
 // Factors

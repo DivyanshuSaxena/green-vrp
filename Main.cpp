@@ -3,10 +3,9 @@
 #include "Classes.h"
 using namespace std;
 
-
-	const int depot=0;
-	const int startCustomer=1,endCustomer=1000;
-	const int startCharging=1001,endCharging=1100;
+const int depot=0;
+const int startCustomer=1,endCustomer=1000;
+const int startCharging=1001,endCharging=1100;
 
 void fillGlobalVariables();
 double checknewCustomerCost(int id1,int id2);
@@ -23,11 +22,12 @@ int main() {
 		bool stoppingcondition=false;
 
 		Vehicle v;//new object of type:vehicle
-		//intialize the members of object "v" of type Vehicle 
+		//intialize the members of object "v" of type Vehicle
+
 		vehiclepool.push_back(v);
 		// vehiclepool.get(currentvehicle).addNode(depot);
 		while(stoppingcondition!=true){
-			Node mincustomer;
+			int mincustomer;
 			double minCost=-1;
 			double checkcost;
 
@@ -43,21 +43,26 @@ int main() {
 				}
 			}
 
-		if(minCost!=-1){
-			vehiclepool.at(currentvehicle).addNode(mincustomer);
-			customerPool.remove(mincustomer);
-		}
-		else{//NO customer is feasible for adding
-			stoppingcondition= functionAddingChargingStationOrDepot(vehiclepool.at(currentvehicle));
-		}	
+			if(minCost!=-1){
+				vehiclepool.at(currentvehicle).addCustomer(mincustomer);
+				for(int p=0; p < customerPool.size(); p++){
+					if(customerPool.at(p)==mincustomer){
+						customerPool.erase(customerPool.begin()+p);
+						break;
+						}
+				}
 
-
-
+			}
+			else{
+				//NO customer is feasible for adding
+				stoppingcondition= vehiclepool.at(currentvehicle).addChargingStationOrDepot();
+			}	
 		}
 	currentvehicle++;
-
 	}
 	// All customers are served until this line.
+	//output in
+
 	return 0;
 }
 
@@ -88,7 +93,7 @@ void fillGlobalVariables() {
 		distanceType1=stod(temp);
 		
 	    getline(infile,temp,',');//charging time--sae for both
-		chargeTime1=stod(temp);
+		chargeTime1=stod(temp)*60;
 		
 	    getline(infile,temp,',');//unit cost--per distance
 		unitTransCost1=stod(temp);
@@ -110,7 +115,7 @@ void fillGlobalVariables() {
 		distanceType2=stod(temp);
 		
 	    getline(infile,temp,',');
-		chargeTime2=stod(temp);
+		chargeTime2=stod(temp)*60;
 		
 	    getline(infile,temp,',');
 		unitTransCost2=stod(temp);
@@ -146,7 +151,7 @@ void fillGlobalVariables() {
 		numCustomers=1000;
 
 		for (int k=1;k<=numCustomers;k++){
-			customerpool.push_back(k);
+			customerPool.push_back(k);
 		}//1-1000
 
 		numNodes=1101;
@@ -166,10 +171,12 @@ void fillGlobalVariables() {
 		// depot.lat=stod(s_temp);
 		getline(infile,s_temp,',');
 		getline(infile,s_temp,',');
-		getline(infile,s_temp,',');//start time
-/*debug it*/		depot.timeWindowStarts=stoi(s_temp);
+		getline(infile,s_temp,':');//start time:hour
+			double depothour=stod(s_temp)*60;
+		getline(infile,s_temp,',');//start time:minute
+			depot.timeWindowStarts=stod(s_temp)+depothour;
 		getline(infile,s_temp,'\n');//end time
-/*debug it*/		depot.timeWindowEnds=stoi(s_temp);
+			depot.timeWindowEnds=1440;
 		
 		customers.push_back(depot);
 		
@@ -195,10 +202,14 @@ void fillGlobalVariables() {
 			tempNode.demandWeight=stod(s_temp);
 			getline(infile,s_temp,',');//volume
 			tempNode.demandVol=stod(s_temp);			
-			getline(infile,s_temp,',');//start time
-	/*debug it*/		tempNode.timeWindowStarts=stoi(s_temp);
+			getline(infile,s_temp,':');//start time:hour
+					double customerstarthour=stod(s_temp)*60;
+			getline(infile,s_temp,',');//start time:minute		
+					tempNode.timeWindowStarts=customerstarthour + stod(s_temp);
+			getline(infile,s_temp,':');//end time:hour
+					double customerendhour=stod(s_temp)*60;
 			getline(infile,s_temp,'\n');//end time
-	/*debug it*/		tempNode.timeWindowEnds=stoi(s_temp);
+					tempNode.timeWindowEnds=customerendhour +stod(s_temp);
 			
 			customers.push_back(tempNode);
 		}
@@ -270,7 +281,7 @@ double checknewCustomerCost(int id1,int id2){
 	double waitingcostid12,travellingcostid12; //id1--id2
 	 travellingcostid12=travelDistance[id1][id2] * unitTransCost1;
 
-	 time_type currDeptTime = vehiclepool.at(currentvehicle).route.at(vehiclepool.at(currentvehicle).route.size()-1).departure_time;
+	 time_type currDeptTime = vehicles.at(currentvehicle).route.at(vehiclepool.at(currentvehicle).route.size()-1).departure_time;
 	  if((travelTimes.at(id1).at(id2) + currDeptTime) < customers.at(id2).timeWindowStarts){
 	  	waitingcostid12=(customers.at(id2).timeWindowStarts - (travelTimes.at(id1).at(id2) + currDeptTime)) * 24; //no varible here just value check agan
 	  }
