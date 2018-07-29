@@ -1,18 +1,19 @@
 #include <iostream>
 #include <fstream>
+#include <string>
 #include "Classes.h"
 using namespace std;
 
 const int depot=0;
 const int startCustomer=1,endCustomer=1000;
 const int startCharging=1001,endCharging=1100;
+int currentvehicle=0;
 
 void fillGlobalVariables();
 double checknewCustomerCost(int id1,int id2);
 
 int main() {
 
-	int currentvehicle=0;
 
 	fillGlobalVariables();
 
@@ -23,7 +24,7 @@ int main() {
 		//intialize the members of object "v" of type Vehicle
 
 		vehicles.push_back(v);
-		// vehiclepool.get(currentvehicle).addNode(depot);
+		// vehicles.get(currentvehicle).addNode(depot);
 		while(stoppingcondition!=true) {
 			int mincustomer;
 			double minCost=-1;
@@ -31,7 +32,7 @@ int main() {
 
 			for(int counter=0;counter<customerPool.size();counter++){
 				if(vehicles.at(currentvehicle).feasible(customerPool.at(counter) )==true){
-					checkcost=vehicles.at(currentvehicle).totalCost + checknewCustomerCost(customerPool.at(counter) , vehicles.at(currentvehicle).currentNodeId) ;
+					checkcost=vehicles.at(currentvehicle).totalCost + checknewCustomerCost(vehicles.at(currentvehicle).currentNodeId, customerPool.at(counter)) ;
 					//checknewCustomerCost should give travellingCost+waitingCost here.
 					if(minCost>checkcost || minCost==-1){
 						mincustomer= customerPool.at(counter);
@@ -59,30 +60,30 @@ int main() {
 	}
 	// All customers are served until this line.
 
-//output in csv file
+	//output in csv file
 	ofstream outFile;
-	outfile.open("solution.csv");
+	outFile.open("solution.csv");
 	outFile<<"trans_code,vehicle_type,dist_seq,distribute_lea_tm,distribute_arr_tm,distance,trans_cost,charge_cost,weight_cost,fixed_use_cost,total_cost,charge_cnt,\n";
-	for ( int i=0;i<vehiclepool.size();i++)
+	for ( int i=0;i<vehicles.size();i++)
 	{
 		outFile<<"DP"<<i+1<<",";
-		outfile<<vehiclepool.vehicle_type<<",";
-		for(auto j = 0; j < vehiclepool.at(i).route.size();j++ )
+		outFile<<vehicles.at(i).type<<",";
+		for(auto j = 0; j < vehicles.at(i).route.size();j++ )
 		{
-			outFile<<vehiclepool.at(i).route.at(j).id;
-			if(j!=vehiclepool.at(i).route.size()-1)
-				myfile<<";";
+			outFile<<vehicles.at(i).route.at(j).id;
+			if(j!=vehicles.at(i).route.size()-1)
+				outFile<<";";
 		}
-		myfile<<",";
-		outFile<<vehiclepool.at(i).route.at(0).arrival_time<<",";
-		outFile<<vehiclepool.at(i).route.at(vehiclepool.at(i).route.size()-1).arrival+time<<",";
-		outFile<<vehiclepool.at(i).distanceTravelled<<",";
-		outFile<<vehiclepool.at(i).travellingCost<<",";
-		outFile<<vehiclepool.at(i).chargingCost<<",";
-		outFile<<vehiclepool.at(i).waitingCost<<",";
+		outFile<<",";
+		outFile<<vehicles.at(i).route.at(0).arrival_time<<",";
+		outFile<<vehicles.at(i).route.at(vehicles.at(i).route.size()-1).arrival_time<<",";
+		outFile<<vehicles.at(i).distanceTravelled<<",";
+		outFile<<vehicles.at(i).travellingCost<<",";
+		outFile<<vehicles.at(i).chargingCost<<",";
+		outFile<<vehicles.at(i).waitingCost<<",";
 		outFile<<"200,";
-		outFile<<vehiclepool.at(i).totalCost<<",";
-		double countCharging=chargingCost/chargingCostStation;
+		outFile<<vehicles.at(i).totalCost<<",";
+		double countCharging=vehicles.at(i).chargingCost/chargingCostStation;
 		outFile<<countCharging<<"\n";
 	}
 
@@ -302,18 +303,17 @@ void fillGlobalVariables() {
 
 double checknewCustomerCost(int id1,int id2){
 	double waitingcostid12,travellingcostid12; //id1--id2
-	 travellingcostid12=travelDistance[id1][id2] * unitTransCost1;
+    double factor = vehicles.at(currentvehicle).type == 1? unitTransCost1 : unitTransCost2;	
+	travellingcostid12=travelDistance[id1][id2] * factor;
 
-	 time_type currDeptTime = vehicles.at(currentvehicle).route.at(vehiclepool.at(currentvehicle).route.size()-1).departure_time;
-	  if((travelTimes.at(id1).at(id2) + currDeptTime) < customers.at(id2).timeWindowStarts){
-	  	waitingcostid12=(customers.at(id2).timeWindowStarts - (travelTimes.at(id1).at(id2) + currDeptTime)) * 24; //no varible here just value check agan
-	  }
-	  else{
-	  waitingcostid12= 0; 	
-	  }
+	time_type currDeptTime = vehicles.at(currentvehicle).route.at(vehicles.at(currentvehicle).route.size()-2).departure_time;
+	if((travelTimes.at(id1).at(id2) + currDeptTime) < customers.at(id2).timeWindowStarts){
+		waitingcostid12=(customers.at(id2).timeWindowStarts - (travelTimes.at(id1).at(id2) + currDeptTime)) * 24; //no varible here just value check agan
+	}
+	else{
+		waitingcostid12= 0; 	
+	}
 
-		  double totalcostid12=waitingcostid12+travellingcostid12;
-		 return totalcostid12;
-
-
+	double totalcostid12=waitingcostid12+travellingcostid12;
+	return totalcostid12;
 }

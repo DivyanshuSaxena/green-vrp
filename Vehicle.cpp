@@ -67,7 +67,8 @@ void Vehicle::addCustomer(int customerId) {
     auto it = this->route.end();
     this->route.insert(--it, node);
     // Update costs
-    this->travellingCost += travelCost;
+    double factor = this->type == 1 ? unitTransCost1 : unitTransCost2;
+    this->travellingCost += (travelCost * factor);
     double waitCost = (customer.timeWindowStarts > node.arrival_time) ? (customer.timeWindowStarts - node.arrival_time)*waiting_factor : 0; 
     this->waitingCost += waitCost;
     updateTotalCost();
